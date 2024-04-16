@@ -1,0 +1,106 @@
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import static org.junit.Assert.assertEquals;
+
+public class CheckItTest {
+
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+
+    @Before
+    public void setUpStreams() {
+        // Redirect the System.out to outContent stream.
+        System.setOut(new PrintStream(outContent));
+    }
+
+    @After
+    public void restoreStreams() {
+        // Restore the original System.out.
+        System.setOut(originalOut);
+    }
+
+//step 2
+
+    @Test 
+    public void testCheckIt_TrueA() {
+        CheckIt.checkIt(true, false, false); 
+        assertEquals("P is true", outContent.toString().trim());
+    }
+
+    @Test //step 2
+    public void testCheckIt_TrueBandC() {
+        CheckIt.checkIt(false, true, true); 
+        assertEquals("P is true", outContent.toString().trim());
+    }
+
+    @Test 
+    public void testCheckIt_FalseAllFalse() {
+        CheckIt.checkIt(false, false, false); 
+        assertEquals("P isn't true", outContent.toString().trim());
+    }
+
+public void testCheckIt_ClauseATrue() {
+        CheckIt.checkIt(true, false, false); 
+        assertEquals("P is true", outContent.toString().trim());
+    }
+
+//step 3
+
+    @Test
+    public void testCheckIt_ClauseBandCTrue() {
+        CheckIt.checkIt(false, true, true); 
+        assertEquals("P is true", outContent.toString().trim());
+    }
+
+    @Test
+    public void testCheckIt_ClauseBFalse() {
+        CheckIt.checkIt(false, false, true); 
+        assertEquals("P isn't true", outContent.toString().trim());
+    }
+
+    @Test
+    public void testCheckIt_ClauseCFalse() {
+        CheckIt.checkIt(false, true, false); 
+        assertEquals("P isn't true", outContent.toString().trim());
+    }
+
+//step 5
+
+@Test
+public void testCheckIt_CACCTrueA() {
+    CheckIt.checkIt(true, false, false); // CACC Test 1: p is true due to a
+    assertEquals("P is true", outContent.toString().trim());
+}
+
+@Test
+public void testCheckIt_CACCFalseATrueBFalseC() {
+    CheckIt.checkIt(false, true, false); // CACC Test 2: p is false due to a, even though b is true
+    assertEquals("P isn't true", outContent.toString().trim());
+}
+
+//step 6
+@Test
+public void testCheckIt_RACCTrueAFalseBandC() {
+    CheckIt.checkIt(true, false, false); // RACC Test 1: p is true due to a
+    assertEquals("P is true", outContent.toString().trim());
+}
+
+@Test
+public void testCheckIt_RACCFalseAFalseBandC() {
+    CheckIt.checkIt(false, false, false); // RACC Test 2: p is false due to all being false
+    assertEquals("P isn't true", outContent.toString().trim());
+}
+
+
+
+}
+
+
+
+
+
